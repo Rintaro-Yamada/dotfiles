@@ -60,7 +60,6 @@ let g:NERDTreeLimitedSyntax = 1
 "閉じ括弧してくれる
 Plug 'cohama/lexima.vim'
 
-"最近追加したもの
 "vim-plug
 Plug 'lervag/vimtex'
 filetype plugin on
@@ -206,6 +205,11 @@ highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 "----------------------------------------------------------
 "行番号を黄色にする
 "autocmd ColorScheme * highlight LineNr ctermfg=226 
+
+"----------------------------------------------------------
+"相対行番号
+"----------------------------------------------------------
+set relativenumber
 
 "----------------------------------------------------------
 " タブ・インデント
