@@ -29,65 +29,100 @@ let g:NERDTreeMouseMode=3 "マウスでの操作 1: ダブルクリックでフ�
 "ステータスライン関係
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tomasiser/vim-code-dark'
 let g:airline#extensions#tabline#enabled = 1 "タブを有効化
 nmap <C-p> <Plug>AirlineSelectPrevTab "C-pで前のタブへ
 nmap <C-n> <Plug>AirlineSelectNextTab "C-nで次のタブへ
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'molokai'
+"let g:airline_theme = 'molokai'
+let g:airline_theme = 'codedark'
 
 "テーマ関係
-Plug 'tomasr/molokai'
+"Plug 'tomasr/molokai'
 
 "アイコン関係
 Plug 'ryanoasis/vim-devicons'
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete\ 12
+set guifont=Cica:h16
+set printfont=Cica:h12
+set ambiwidth=double
 " フォルダアイコンを表示
 let g:WebDevIconsNerdTreeBeforeGlyphPadding = ""
-let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
 endif
 
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 
+let g:NERDTreeLimitedSyntax = 1
+
 "閉じ括弧してくれる
 Plug 'cohama/lexima.vim'
 
-"C++関係
-Plug 'justmao945/vim-clang'
-"let g:clang_c_options = '-std=c11'
-"let g:clang_cpp_options = '-std=c++1z -stdlib=libc++ --pedantic-errors'
+"最近追加したもの
+"vim-plug
+Plug 'lervag/vimtex'
+filetype plugin on
+filetype indent on
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+let g:Imap_UsePlaceHolders = 1
+let g:Imap_DeleteEmptyPlaceHolders = 1
+let g:Imap_StickyPlaceHolders = 0
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='dvi,pdf'
+"let g:Tex_FormatDependency_pdf = 'pdf'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:vimtex_compiler_latexmk = {
+      \ 'background': 1,
+      \ 'build_dir': '',
+      \ 'continuous': 1,
+      \ 'options': [
+      \    '-pdfdvi', 
+      \    '-verbose',
+      \    '-file-line-error',
+      \    '-synctex=1',
+      \    '-interaction=nonstopmode',
+      \],
+      \}
 
-let g:clang_auto = 0
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-let g:clang_use_library = 1
-
-" default 'longest' can not work with neocomplete
-let g:clang_c_completeopt   = 'menuone'
-let g:clang_cpp_completeopt = 'menuone'
-
-let g:clang_exec = 'clang'
-let g:clang_format_exec = 'clang-format'
-
-let g:clang_c_options = '-std=c11'
-let g:clang_cpp_options = '
-  \ -std=c++1z 
-  \ -stdlib=libc++ 
-  \ -pedantic-errors
-  \ '
-
+let g:vimtex_view_general_viewer
+      \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+let g:Tex_CompileRule_pdf = 'ptex2pdf -u -l -ot "-synctex=1 -interaction=nonstopmode -file-line-error-style" $*'
+"let g:Tex_CompileRule_pdf = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error-style $*'
+let g:Tex_CompileRule_dvi = 'uplatex -synctex=1 -interaction=nonstopmode -file-line-error-style $*'
+let g:Tex_BibtexFlavor = 'upbibtex'
+let g:Tex_MakeIndexFlavor = 'upmendex $*.idx'
+let g:Tex_UseEditorSettingInDVIViewer = 1
+"let g:Tex_ViewRule_pdf = 'xdg-open'
+"let g:Tex_ViewRule_pdf = 'evince'
+"let g:Tex_ViewRule_pdf = 'okular --unique'
+let g:Tex_ViewRule_pdf = 'zathura -x "vim --servername synctex -n --remote-silent +\%{line} \%{input}"'
+"let g:Tex_ViewRule_pdf = 'qpdfview --unique'
+"let g:Tex_ViewRule_pdf = 'texworks'
+"let g:Tex_ViewRule_pdf = 'mupdf'
+"let g:Tex_ViewRule_pdf = 'firefox -new-window'
+"let g:Tex_ViewRule_pdf = 'chromium --new-window'
 
 call plug#end()
-
 
 "---------------------------------------------------------
 " 文字
 "----------------------------------------------------------
 set fileencoding=utf-8 " 保存時の文字コード
-set fileencodings=ucs-boms,utf-8,euc-jp,cp932 "読み込み時の文字コードの自動判別. 左側が優先される
+set fileencodings=utf-8,euc-jp,cp932 "読み込み時の文字コードの自動判別. 左側が優先される
 set fileformats=unix,dos,mac " 改行コードの自動判別. 左側が優先される
 set ambiwidth=double " □や○文字が崩れる問題を解決
 " 不可視文字を表示する
 "set list
+
+"if ! has('gui_macvim')
+"    " file encoding for JP （MacVim 以外の場合）
+"    set fencs=iso-2022-jp,cp932,sjis,euc-jp,utf-8
+"endif
 
 " ========== Base Config ==========
 " バックアップファイルを作らない
@@ -135,8 +170,8 @@ nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 "----------------------------------------------------------
 " 行番号を表示
 set number
-"set cursorline " カーソルラインをハイライト
-
+set cursorline " カーソルラインをハイライト
+hi clear CursorLine
 "----------------------------------------------------------
 " カッコ・タグの対応
 "----------------------------------------------------------
@@ -145,9 +180,11 @@ set showmatch " 括弧の対応関係を一瞬表示する
 "----------------------------------------------------------
 " キーバインド
 "----------------------------------------------------------
-"escキーを<C-j>で実現
-imap <C-j> <esc>
+"<esc>を<jj>で代用.<ctrl>+<[>でもできる。
+inoremap <silent> jj <ESC>
+noremap <C-j> <esc>
 noremap! <C-j> <esc>
+
 "----------------------------------------------------------
 " ステータスライン
 "----------------------------------------------------------
@@ -167,7 +204,8 @@ highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 "----------------------------------------------------------
 "ハイライト
 "----------------------------------------------------------
-autocmd ColorScheme * highlight LineNr ctermfg=226
+"行番号を黄色にする
+"autocmd ColorScheme * highlight LineNr ctermfg=226 
 
 "----------------------------------------------------------
 " タブ・インデント
@@ -191,7 +229,7 @@ set history=100
 set scrolloff=5 "画面端でのスクロールに5行分の余裕を持つ
 
 "----------------------------------------------------------
-"" マウスでカーソル移動とスクロール
+"マウスでカーソル移動とスクロール
 "----------------------------------------------------------
 if has('mouse')
     set mouse=a
@@ -205,23 +243,9 @@ if has('mouse')
 endif
 
 "----------------------------------------------------------
-" クリップボードからのペースト
+"クリップボードの同期 
 "----------------------------------------------------------
-set clipboard&
-set clipboard^=unnamedplus
-
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
-
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
+set clipboard+=unnamed
 
 "----------------------------------------------------------
 " Syntastic
@@ -242,8 +266,8 @@ set t_Co=256
 "set background=dark
 " カラースキーマ
 "colorscheme murphy "NERDTreeで使うと化ける
-colorscheme molokai
-
+"colorscheme molokai
+colorscheme codedark
 "コマンド補完
 set wildmenu
 set wildmode=list:longest
